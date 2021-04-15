@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/GraphNode.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Arrow.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/GraphMaker.gd" type="Script" id=3]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Nodes" type="Node2D" parent="."]
+
+[node name="Node1" parent="Nodes" instance=ExtResource( 1 )]
+position = Vector2( 323.876, 182.319 )
+
+[node name="Node2" parent="Nodes" instance=ExtResource( 1 )]
+position = Vector2( 581.393, 111.981 )
+
+[node name="Node3" parent="Nodes" instance=ExtResource( 1 )]
+position = Vector2( 748.27, 322.698 )
+type = "resource"
+
+[node name="Node4" parent="Nodes" instance=ExtResource( 1 )]
+position = Vector2( 589.878, 475.433 )
+
+[node name="Node5" parent="Nodes" instance=ExtResource( 1 )]
+position = Vector2( 319.763, 399.066 )
+type = "resource"
+
+[node name="Arrows" type="Node2D" parent="."]
+
+[node name="Arrow1" parent="Arrows" instance=ExtResource( 2 )]
+
+[node name="Arrow2" parent="Arrows" instance=ExtResource( 2 )]
+
+[node name="Arrow3" parent="Arrows" instance=ExtResource( 2 )]
+
+[node name="Arrow4" parent="Arrows" instance=ExtResource( 2 )]
+
+[node name="Arrow5" parent="Arrows" instance=ExtResource( 2 )]
+
+[node name="Arrow6" parent="Arrows" instance=ExtResource( 2 )]
+
+[node name="Arrow7" parent="Arrows" instance=ExtResource( 2 )]
+
+[node name="Arrow8" parent="Arrows" instance=ExtResource( 2 )]
+
+[node name="Arrow9" parent="Arrows" instance=ExtResource( 2 )]
+
+[node name="Arrow10" parent="Arrows" instance=ExtResource( 2 )]
+
+[node name="Arrow11" parent="Arrows" instance=ExtResource( 2 )]
