@@ -1,51 +1,78 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Scenes/GraphNode.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/Arrow.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/ToggleButton.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/GraphMaker.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/PanelGrab.gd" type="Script" id=4]
+[ext_resource path="res://Sprites/ProcessCircle.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/ResourceCircle.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/BuildModeLabel.gd" type="Script" id=7]
 
-[node name="Node2D" type="Node2D"]
+[node name="Graph" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="Nodes" type="Node2D" parent="."]
 
-[node name="Node1" parent="Nodes" instance=ExtResource( 1 )]
-position = Vector2( 323.876, 182.319 )
-
-[node name="Node2" parent="Nodes" instance=ExtResource( 1 )]
-position = Vector2( 581.393, 111.981 )
-
-[node name="Node3" parent="Nodes" instance=ExtResource( 1 )]
-position = Vector2( 748.27, 322.698 )
-type = "resource"
-
-[node name="Node4" parent="Nodes" instance=ExtResource( 1 )]
-position = Vector2( 589.878, 475.433 )
-
-[node name="Node5" parent="Nodes" instance=ExtResource( 1 )]
-position = Vector2( 319.763, 399.066 )
-type = "resource"
-
 [node name="Arrows" type="Node2D" parent="."]
 
-[node name="Arrow1" parent="Arrows" instance=ExtResource( 2 )]
+[node name="UI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Arrow2" parent="Arrows" instance=ExtResource( 2 )]
+[node name="SelectPanel" type="Panel" parent="UI"]
+margin_right = 100.0
+margin_bottom = 500.0
 
-[node name="Arrow3" parent="Arrows" instance=ExtResource( 2 )]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/SelectPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -16.0
+custom_constants/separation = 13
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Arrow4" parent="Arrows" instance=ExtResource( 2 )]
+[node name="Process" type="TextureRect" parent="UI/SelectPanel/VBoxContainer"]
+margin_right = 68.0
+margin_bottom = 66.0
+texture = ExtResource( 5 )
+stretch_mode = 6
+script = ExtResource( 4 )
 
-[node name="Arrow5" parent="Arrows" instance=ExtResource( 2 )]
+[node name="Resource" type="TextureRect" parent="UI/SelectPanel/VBoxContainer"]
+margin_top = 79.0
+margin_right = 68.0
+margin_bottom = 145.0
+texture = ExtResource( 6 )
+stretch_mode = 6
+script = ExtResource( 4 )
+type = "resource"
 
-[node name="Arrow6" parent="Arrows" instance=ExtResource( 2 )]
+[node name="Mode" type="Label" parent="UI"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 23.5717
+margin_top = 551.721
+margin_right = 151.572
+margin_bottom = 565.721
+text = "Build Mode: Normal"
+script = ExtResource( 7 )
 
-[node name="Arrow7" parent="Arrows" instance=ExtResource( 2 )]
-
-[node name="Arrow8" parent="Arrows" instance=ExtResource( 2 )]
-
-[node name="Arrow9" parent="Arrows" instance=ExtResource( 2 )]
-
-[node name="Arrow10" parent="Arrows" instance=ExtResource( 2 )]
-
-[node name="Arrow11" parent="Arrows" instance=ExtResource( 2 )]
+[node name="ToggleButton" type="Button" parent="UI"]
+margin_left = 844.091
+margin_top = 536.537
+margin_right = 984.091
+margin_bottom = 576.537
+text = "Simulate"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="gui_input" from="UI/SelectPanel/VBoxContainer/Process" to="UI/SelectPanel/VBoxContainer/Process" method="_on_self_gui_input"]
+[connection signal="gui_input" from="UI/SelectPanel/VBoxContainer/Resource" to="UI/SelectPanel/VBoxContainer/Resource" method="_on_self_gui_input"]
+[connection signal="pressed" from="UI/ToggleButton" to="UI/ToggleButton" method="_on_ToggleButton_pressed"]
