@@ -12,18 +12,21 @@ export var type := "process"
 func _ready():
 	pass # Replace with function body.
 
-
+var wait=0
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	wait = clamp(wait-1, 0, 100)
 
 
 
 func _on_self_gui_input(event):
-	if Input.is_action_just_pressed("click") and $"/root/Graph".mode=="build_normal":
+	if Input.is_action_just_pressed("click") \
+	and $"/root/Graph".mode=="build_normal"  \
+	and wait == 0:
 		var node = Node_res.instance()
 		node.type = type
 		node.position = get_global_mouse_position()
 		node.selected = true
 		node._on_Area2D_mouse_entered()
 		$"/root/Graph/Nodes".add_child(node)
+		wait=20

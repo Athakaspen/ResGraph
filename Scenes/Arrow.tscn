@@ -5,7 +5,7 @@
 [ext_resource path="res://Sprites/ArrowLine-solid.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/ArrowLine-dashed.png" type="Texture" id=4]
 
-[node name="Node2D" type="Node2D"]
+[node name="Arrow" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="line-dashed" type="Sprite" parent="."]

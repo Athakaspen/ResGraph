@@ -62,6 +62,21 @@ margin_right = 151.572
 margin_bottom = 565.721
 text = "Build Mode: Normal"
 script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="loop" type="Label" parent="UI"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 924.785
+margin_top = 21.209
+margin_right = 995.785
+margin_bottom = 52.209
+text = "False"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ToggleButton" type="Button" parent="UI"]
 margin_left = 844.091

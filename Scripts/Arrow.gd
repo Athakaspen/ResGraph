@@ -34,7 +34,7 @@ func _process(delta):
 			$"head-in".visible = false
 			$"head-out".visible = true
 			$"head-out".modulate = Color(1,1,1)
-		"allocation":
+		"allocated":
 			line = $"line-solid"
 			$"line-dashed".visible = false
 			$"line-solid".visible = true
@@ -61,7 +61,7 @@ func _process(delta):
 
 	if is_red:
 		$"line-solid".modulate = Color(1,0,0)
-		$"line-dashed".modulate = Color(1,0,0)
+		#$"line-dashed".modulate = Color(1,0,0)
 		$"head-out".modulate = Color(1,0,0)
 		$"head-in".modulate = Color(1,0,0)
 	

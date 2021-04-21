@@ -20,8 +20,8 @@ func _ready():
 func _on_ToggleButton_pressed():
 	match($"/root/Graph".mode):
 		"build_normal", "build_arrow":
-			$"/root/Graph".mode="simulate"
+			$"/root/Graph".switch_to_sim()
 			text = "Build"
 		"simulate":
-			$"/root/Graph".mode="build_normal"
+			$"/root/Graph".switch_to_build()
 			text = "Simulate"
