@@ -1,11 +1,19 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Scenes/ToggleButton.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/ToggleButton.gd" type="Script" id=1]
+[ext_resource path="res://Theme/the_theme.tres" type="Theme" id=2]
 [ext_resource path="res://Scripts/GraphMaker.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/PanelGrab.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/PanelGrab.gd" type="Script" id=4]
 [ext_resource path="res://Sprites/ProcessCircle.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/ResourceCircle.png" type="Texture" id=6]
-[ext_resource path="res://Scenes/BuildModeLabel.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/ToggleTextLabel.gd" type="Script" id=7]
+[ext_resource path="res://Theme/font-future-32p.tres" type="DynamicFont" id=8]
+[ext_resource path="res://Scripts/BuildModeLabel.gd" type="Script" id=9]
+[ext_resource path="res://Theme/kenvector_future.ttf" type="DynamicFontData" id=10]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+font_data = ExtResource( 10 )
 
 [node name="Graph" type="Node2D"]
 script = ExtResource( 3 )
@@ -22,32 +30,38 @@ __meta__ = {
 }
 
 [node name="SelectPanel" type="Panel" parent="UI"]
-margin_right = 100.0
-margin_bottom = 500.0
+margin_left = 7.96277
+margin_top = 65.7902
+margin_right = 104.963
+margin_bottom = 235.79
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/SelectPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 16.0
-margin_top = 16.0
-margin_right = -16.0
-margin_bottom = -16.0
-custom_constants/separation = 13
+margin_left = 12.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = -12.0
+custom_constants/separation = 12
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Process" type="TextureRect" parent="UI/SelectPanel/VBoxContainer"]
-margin_right = 68.0
+margin_right = 73.0
 margin_bottom = 66.0
 texture = ExtResource( 5 )
 stretch_mode = 6
 script = ExtResource( 4 )
 
 [node name="Resource" type="TextureRect" parent="UI/SelectPanel/VBoxContainer"]
-margin_top = 79.0
-margin_right = 68.0
-margin_bottom = 145.0
+margin_top = 78.0
+margin_right = 73.0
+margin_bottom = 144.0
 texture = ExtResource( 6 )
 stretch_mode = 6
 script = ExtResource( 4 )
@@ -56,38 +70,75 @@ type = "resource"
 [node name="Mode" type="Label" parent="UI"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 23.5717
-margin_top = 551.721
-margin_right = 151.572
-margin_bottom = 565.721
+margin_left = 118.0
+margin_top = 66.0
+margin_right = 579.0
+margin_bottom = 102.0
+theme = ExtResource( 2 )
+custom_fonts/font = SubResource( 1 )
 text = "Build Mode: Normal"
+autowrap = true
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ToggleText" type="Label" parent="UI"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 118.0
+margin_top = 100.983
+margin_right = 370.0
+margin_bottom = 122.983
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 0.309804, 0.317647, 0.329412, 1 )
+text = "hold shift to toggle"
+autowrap = true
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="loop" type="Label" parent="UI"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 924.785
-margin_top = 21.209
-margin_right = 995.785
-margin_bottom = 52.209
-text = "False"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="ToggleButton" type="Button" parent="UI"]
-margin_left = 844.091
-margin_top = 536.537
-margin_right = 984.091
-margin_bottom = 576.537
+margin_left = 756.692
+margin_top = 524.527
+margin_right = 1006.69
+margin_bottom = 584.527
+theme = ExtResource( 2 )
 text = "Simulate"
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="DeadlockPanel" type="Panel" parent="UI"]
+margin_left = 8.0
+margin_top = 9.0
+margin_right = 505.0
+margin_bottom = 56.0
+theme = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Deadlock" type="Label" parent="UI/DeadlockPanel"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = -47.0
+margin_right = 499.0
+margin_bottom = -1.0
+theme = ExtResource( 2 )
+custom_fonts/font = ExtResource( 8 )
+custom_colors/font_color = Color( 0, 1, 0, 1 )
+text = "Deadlock  Impossible"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="gui_input" from="UI/SelectPanel/VBoxContainer/Process" to="UI/SelectPanel/VBoxContainer/Process" method="_on_self_gui_input"]
 [connection signal="gui_input" from="UI/SelectPanel/VBoxContainer/Resource" to="UI/SelectPanel/VBoxContainer/Resource" method="_on_self_gui_input"]
 [connection signal="pressed" from="UI/ToggleButton" to="UI/ToggleButton" method="_on_ToggleButton_pressed"]

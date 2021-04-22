@@ -6,6 +6,7 @@ extends Node2D
 # var b = "text"
 
 var arrow_res = preload("res://Scenes/Arrow.tscn")
+var Warning_res = preload("res://Scenes/Warning.tscn")
 
 var ArrowConnections := {}
 # arrow1 : ["node1", "node2", "0", "allowed"]
@@ -17,6 +18,9 @@ var new_arrow_origin:String
 var mode = "build_normal"
 
 var cur_deadlock_start = "NONE"
+
+onready var deadlockLabel = $"UI/DeadlockPanel/Deadlock"
+onready var modeLabal = $"UI/Mode"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -85,6 +89,8 @@ func switch_to_build():
 	mode = "build_normal"
 	for arrowData in ArrowConnections.values():
 		arrowData[3] = "allowed"
+	for arrow in $Arrows.get_children():
+		arrow.is_red = false
 
 func delete_graph_node(node):
 	var arrows_to_delete = []
@@ -96,12 +102,9 @@ func delete_graph_node(node):
 	for arrowName in arrows_to_delete:
 		ArrowConnections.erase(arrowName)
 	node.queue_free()
-	var loop = false
-	for node in $Nodes.get_children():
-		if find_loop(node.name):
-			loop = true
-	if loop:
-		$UI/loop.text = "TRUE"
+	
+	update_loop()
+	
 
 func start_new_arrow(node):
 	if making_arrow==false:
@@ -126,7 +129,7 @@ func end_new_arrow(node):
 		if not dup: 
 			ArrowConnections[new_arrow.name] = [new_arrow_origin, node.name, 0, "allowed"]
 			#print("|+|+|+|+|FINDLOOP|+|+|+|+|")
-			find_loop(new_arrow_origin)
+			update_loop()
 		making_arrow=false
 
 func make_request(node):
@@ -139,12 +142,13 @@ func make_request(node):
 				dup=true
 				if arrowData[3]=="allocated" \
 				or arrowData[3]=="request":
+					if arrowData[3]=="allocated":
+						for arrowData2 in ArrowConnections.values():
+							if arrowData2[3] == "request" \
+							and arrowData2[1] == node.name:
+								arrowData2[3] = "allocated"
+								break
 					arrowData[3]="allowed"
-					for arrowData2 in ArrowConnections.values():
-						if arrowData2[3] == "request" \
-						and arrowData2[1] == node.name:
-							arrowData2[3] = "allocated"
-							break
 					update_deadloop(new_arrow_origin)
 					return
 				# check if resource is available
@@ -159,7 +163,8 @@ func make_request(node):
 					arrowData[3] = "request"
 				break
 		if not dup:
-			print("Not allowed!")
+			#print("Not allowed!")
+			$UI.add_child(Warning_res.instance())
 		
 		update_deadloop(new_arrow_origin)
 		
@@ -171,6 +176,18 @@ func destroy_new_arrow():
 		new_arrow.queue_free()
 	making_arrow=false
 	new_arrow_origin = "NONE"
+
+func update_loop():
+	var loop = false
+	for node in $Nodes.get_children():
+		if find_loop(node.name):
+			loop = true
+	if loop:
+		deadlockLabel.text = "Deadlock  Possible"
+		deadlockLabel.add_color_override("font_color", Color(1,1,0))
+	else:
+		deadlockLabel.text = "Deadlock  Impossible"
+		deadlockLabel.add_color_override("font_color", Color(0,1,0))
 
 # returns true or false representing if a loop of arrows exists (ignores type)
 func find_loop(start_node:String, visited:=[]):
@@ -192,7 +209,6 @@ func find_loop(start_node:String, visited:=[]):
 		and arrowData[to] in visited \
 		and arrowData[to] != visited[-1]:
 			# found a loop
-			$UI/loop.text = "TRUE"
 			print("LOOP'D")
 			return true
 		if arrowData[from] == start_node \
@@ -201,7 +217,6 @@ func find_loop(start_node:String, visited:=[]):
 			if find_loop(arrowData[to], visited + [start_node]):
 				return true
 	# no loop in all subtrees
-	$UI/loop.text = "FALSE"
 	return false
 
 func update_deadloop(start_node):
@@ -216,6 +231,12 @@ func update_deadloop(start_node):
 			arrow.is_red = true
 		else:
 			arrow.is_red = false
+	# update label
+	if len(deadlock_arrows) > 0:
+		deadlockLabel.text = "Deadlocked!"
+		deadlockLabel.add_color_override("font_color", Color(1,0,0))
+	else:
+		update_loop()
 
 # returns a list of arrows representing the deadlock loop,
 # or an empty list if there is no deadlock
@@ -245,9 +266,8 @@ func find_deadlock(start_node:String, visited:=[], arrows:=[]):
 		and ArrowConnections[arrowName][to] in visited \
 		and ArrowConnections[arrowName][to] != visited[-1]:
 			# found a loop
-			#$UI/loop.text = "TRUE"
 			print("LOOP'D")
-			return arrows + [arrowName]
+			return arrows.slice(arrows.find(ArrowConnections[arrowName][to]), -1) + [arrowName]
 		if ArrowConnections[arrowName][from] == start_node \
 		and not ArrowConnections[arrowName][to] in visited:
 			# recursive call
@@ -255,7 +275,6 @@ func find_deadlock(start_node:String, visited:=[], arrows:=[]):
 			if len(recurse) > 0:
 				return recurse
 	# no loop in all subtrees
-	#$UI/loop.text = "FALSE"
 	return []
 
 

@@ -16,8 +16,8 @@ func _ready():
 func _process(delta):
 	match($"/root/Graph".mode):
 		"build_normal":
-			self.text = "Build Mode: Node"
+			self.text = "(hold shift to toggle)"
 		"build_arrow":
-			self.text = "Build Mode: Arrow"
+			self.text = "(hold shift to toggle)"
 		"simulate":
-			self.text = "Simulation mode"
+			self.text = ""
