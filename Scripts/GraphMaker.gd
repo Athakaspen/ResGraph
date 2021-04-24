@@ -183,10 +183,10 @@ func update_loop():
 		if find_loop(node.name):
 			loop = true
 	if loop:
-		deadlockLabel.text = "Deadlock  Possible"
+		deadlockLabel.text = "Deadlock : Possible"
 		deadlockLabel.add_color_override("font_color", Color(1,1,0))
 	else:
-		deadlockLabel.text = "Deadlock  Impossible"
+		deadlockLabel.text = "Deadlock : Impossible"
 		deadlockLabel.add_color_override("font_color", Color(0,1,0))
 
 # returns true or false representing if a loop of arrows exists (ignores type)

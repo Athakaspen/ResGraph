@@ -22,8 +22,8 @@ func _ready():
 		"resource":
 			$ProcessIcon.visible = false
 			$ResourceIcon.visible = true
-	self.connect("new_arrow", Graph, "on_new_arrow")
-	self.connect("end_arrow", Graph, "on_end_arrow")
+	#self.connect("new_arrow", Graph, "on_new_arrow")
+	#self.connect("end_arrow", Graph, "on_end_arrow")
 
 func _input(event):
 	if event.is_action_released("click"):
